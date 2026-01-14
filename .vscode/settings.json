@@ -1,0 +1,25 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features",
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+        }
+    },
+    "eslint.validate": [
+        "typescript"
+    ],
+    "files.exclude": {
+        "out": false,
+        "dist": false,
+        "**/.DS_Store": true
+    },
+    "search.exclude": {
+        "out": true,
+        "dist": true,
+        "**/node_modules": true
+    }
+}

@@ -1,0 +1,151 @@
+{
+  "name": "bastion",
+  "displayName": "Bastion",
+  "description": "AI-native security scanner for detecting LLM vulnerabilities, prompt injection, and AI-specific threats in your code",
+  "version": "0.1.0",
+  "publisher": "bastion-security",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/bastion"
+  },
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages",
+    "Machine Learning",
+    "Testing"
+  ],
+  "keywords": [
+    "security",
+    "ai",
+    "llm",
+    "prompt-injection",
+    "vulnerability",
+    "scanner",
+    "sast",
+    "openai",
+    "langchain",
+    "ai-security",
+    "owasp",
+    "llm-security"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "bastion.scanFile",
+        "title": "Bastion: Scan Current File",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "bastion.scanWorkspace",
+        "title": "Bastion: Scan Entire Workspace",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "bastion.clearDiagnostics",
+        "title": "Bastion: Clear Diagnostics"
+      },
+      {
+        "command": "bastion.showSecurityReport",
+        "title": "Bastion: Show Security Report"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "bastion.scanFile",
+          "group": "bastion@1",
+          "when": "editorTextFocus"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "bastion.scanFile",
+          "group": "navigation@1",
+          "when": "resourceLangId =~ /python|typescript|javascript|javascriptreact|typescriptreact/"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Bastion",
+      "properties": {
+        "bastion.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Bastion security scanning"
+        },
+        "bastion.scanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan files on save"
+        },
+        "bastion.scanOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan files when opened"
+        },
+        "bastion.severity": {
+          "type": "object",
+          "default": {
+            "promptInjection": "error",
+            "apiKeyExposure": "error",
+            "unsanitizedInput": "warning",
+            "missingValidation": "warning",
+            "insecureRag": "warning",
+            "piiLeakage": "error"
+          },
+          "description": "Severity levels for different vulnerability types"
+        },
+        "bastion.excludePatterns": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/.venv/**",
+            "**/venv/**"
+          ],
+          "description": "File patterns to exclude from scanning"
+        },
+        "bastion.frameworks": {
+          "type": "array",
+          "default": [
+            "openai",
+            "langchain",
+            "anthropic",
+            "azure-openai",
+            "llamaindex"
+          ],
+          "description": "AI frameworks to detect and scan"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vscode/test-electron": "^2.3.8",
+    "esbuild": "^0.19.10",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {}
+}
