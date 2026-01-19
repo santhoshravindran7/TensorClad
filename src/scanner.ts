@@ -47,13 +47,14 @@ export class SecurityScanner {
                             length: match.length,
                             code: rule.code,
                             source: 'Bastion',
+                            documentation: rule.documentation,
                             relatedInformation: rule.documentation ? [
                                 new vscode.DiagnosticRelatedInformation(
                                     new vscode.Location(
                                         document.uri,
                                         new vscode.Range(lineIndex, match.index, lineIndex, match.index + match.length)
                                     ),
-                                    rule.documentation
+                                    `\ud83d\udee1\ufe0f OWASP LLM Top 10: ${rule.documentation}`
                                 )
                             ] : undefined
                         };
