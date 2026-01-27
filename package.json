@@ -1,16 +1,16 @@
 {
-  "name": "bastion",
-  "displayName": "Bastion",
+  "name": "tensorclad",
+  "displayName": "TensorClad",
   "description": "AI-native security scanner for detecting LLM vulnerabilities, prompt injection, and AI-specific threats in your code",
   "version": "0.1.0",
-  "publisher": "bastion-security",
+  "publisher": "tensorclad-security",
   "repository": {
     "type": "git",
-    "url": "https://github.com/santhoshravindran7/bastion.git"
+    "url": "https://github.com/santhoshravindran7/TensorClad.git"
   },
-  "homepage": "https://github.com/santhoshravindran7/bastion#readme",
+  "homepage": "https://github.com/santhoshravindran7/TensorClad#readme",
   "bugs": {
-    "url": "https://github.com/santhoshravindran7/bastion/issues"
+    "url": "https://github.com/santhoshravindran7/TensorClad/issues"
   },
   "license": "MIT",
   "icon": "resources/icon.png",
@@ -48,59 +48,59 @@
   "contributes": {
     "commands": [
       {
-        "command": "bastion.scanFile",
-        "title": "Bastion: Scan Current File",
+        "command": "tensorclad.scanFile",
+        "title": "TensorClad: Scan Current File",
         "icon": "$(shield)"
       },
       {
-        "command": "bastion.scanWorkspace",
-        "title": "Bastion: Scan Entire Workspace",
+        "command": "tensorclad.scanWorkspace",
+        "title": "TensorClad: Scan Entire Workspace",
         "icon": "$(shield)"
       },
       {
-        "command": "bastion.clearDiagnostics",
-        "title": "Bastion: Clear Diagnostics"
+        "command": "tensorclad.clearDiagnostics",
+        "title": "TensorClad: Clear Diagnostics"
       },
       {
-        "command": "bastion.showSecurityReport",
-        "title": "Bastion: Show Security Report"
+        "command": "tensorclad.showSecurityReport",
+        "title": "TensorClad: Show Security Report"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "bastion.scanFile",
-          "group": "bastion@1",
+          "command": "tensorclad.scanFile",
+          "group": "tensorclad@1",
           "when": "editorTextFocus"
         }
       ],
       "editor/title": [
         {
-          "command": "bastion.scanFile",
+          "command": "tensorclad.scanFile",
           "group": "navigation@1",
           "when": "resourceLangId =~ /python|typescript|javascript|javascriptreact|typescriptreact/"
         }
       ]
     },
     "configuration": {
-      "title": "Bastion",
+      "title": "TensorClad",
       "properties": {
-        "bastion.enabled": {
+        "tensorclad.enabled": {
           "type": "boolean",
           "default": true,
-          "description": "Enable Bastion security scanning"
+          "description": "Enable TensorClad security scanning"
         },
-        "bastion.scanOnSave": {
+        "tensorclad.scanOnSave": {
           "type": "boolean",
           "default": true,
           "description": "Automatically scan files on save"
         },
-        "bastion.scanOnOpen": {
+        "tensorclad.scanOnOpen": {
           "type": "boolean",
           "default": true,
           "description": "Automatically scan files when opened"
         },
-        "bastion.severity": {
+        "tensorclad.severity": {
           "type": "object",
           "default": {
             "promptInjection": "error",
@@ -112,7 +112,7 @@
           },
           "description": "Severity levels for different vulnerability types"
         },
-        "bastion.excludePatterns": {
+        "tensorclad.excludePatterns": {
           "type": "array",
           "default": [
             "**/node_modules/**",
@@ -123,7 +123,7 @@
           ],
           "description": "File patterns to exclude from scanning"
         },
-        "bastion.frameworks": {
+        "tensorclad.frameworks": {
           "type": "array",
           "default": [
             "openai",

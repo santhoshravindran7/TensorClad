@@ -1,6 +1,6 @@
 """
-Example vulnerable Python code for testing Bastion
-This file intentionally contains security issues that Bastion should detect
+Example vulnerable Python code for testing TensorClad
+This file intentionally contains security issues that TensorClad should detect
 """
 
 import openai
@@ -73,7 +73,7 @@ class VulnerableAIApp:
         # BST030: No validation
         return response.content
 
-# Secure alternatives (Bastion should NOT flag these)
+# Secure alternatives (TensorClad should NOT flag these)
 def secure_api_key_usage():
     """✅ Secure: Using environment variables"""
     api_key = os.getenv("OPENAI_API_KEY")
@@ -95,5 +95,5 @@ def sanitize_input(text: str) -> str:
     return cleaned[:500]  # Limit length
 
 if __name__ == "__main__":
-    print("This file contains intentional vulnerabilities for testing Bastion")
-    print("Bastion should detect 10+ security issues")
+    print("This file contains intentional vulnerabilities for testing TensorClad")
+    print("TensorClad should detect 10+ security issues")

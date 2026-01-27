@@ -1,6 +1,6 @@
 """
-Bastion Security Test File - Python Threat Vectors
-This file contains intentional security vulnerabilities to test Bastion's detection capabilities.
+TensorClad Security Test File - Python Threat Vectors
+This file contains intentional security vulnerabilities to test TensorClad's detection capabilities.
 DO NOT use this code in production!
 """
 
@@ -278,4 +278,4 @@ class VulnerableChatbot:
         return result
 
 
-# This file should trigger multiple Bastion warnings when scanned!
+# This file should trigger multiple TensorClad warnings when scanned!

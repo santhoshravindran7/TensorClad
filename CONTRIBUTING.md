@@ -1,6 +1,6 @@
-# Contributing to Bastion
+# Contributing to TensorClad
 
-Thank you for your interest in contributing to Bastion! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to TensorClad! This document provides guidelines and instructions for contributing.
 
 ## 🤝 Code of Conduct
 
@@ -32,7 +32,7 @@ What actually happens
 ## Environment
 - OS: [e.g., Windows 11, macOS 14]
 - VS Code Version: [e.g., 1.85.0]
-- Bastion Version: [e.g., 0.1.0]
+- TensorClad Version: [e.g., 0.1.0]
 - Language: [e.g., Python 3.11]
 ```
 
@@ -54,8 +54,8 @@ We welcome feature suggestions! Please:
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/yourusername/bastion.git
-cd bastion
+git clone https://github.com/yourusername/TensorClad.git
+cd TensorClad
 
 # Install dependencies
 npm install
@@ -86,13 +86,13 @@ npm run watch
 ```typescript
 // ✅ Good
 export function scanDocument(document: vscode.TextDocument): Promise<void> {
-    const config = vscode.workspace.getConfiguration('bastion');
+    const config = vscode.workspace.getConfiguration('tensorclad');
     // ...
 }
 
 // ❌ Bad
 export function scanDocument(document: any) {
-    let config = vscode.workspace.getConfiguration('bastion');
+    let config = vscode.workspace.getConfiguration('tensorclad');
     // ...
 }
 ```
@@ -218,9 +218,9 @@ Contributors will be:
 
 ## 📞 Questions?
 
-- Open a [Discussion](https://github.com/yourusername/bastion/discussions)
-- Join our [Discord](https://discord.gg/bastion) (coming soon)
-- Email: contributors@bastion-security.dev
+- Open a [Discussion](https://github.com/santhoshravindran7/TensorClad/discussions)
+- Join our [Discord](https://discord.gg/tensorclad) (coming soon)
+- Email: contributors@tensorclad-security.dev
 
 ## 📄 License
 

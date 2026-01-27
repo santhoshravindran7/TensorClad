@@ -46,7 +46,7 @@ export class SecurityScanner {
                             column: match.index,
                             length: match.length,
                             code: rule.code,
-                            source: 'Bastion',
+                            source: 'TensorClad',
                             documentation: rule.documentation,
                             relatedInformation: rule.documentation ? [
                                 new vscode.DiagnosticRelatedInformation(

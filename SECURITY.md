@@ -2,14 +2,14 @@
 
 ## Reporting a Vulnerability
 
-We take the security of Bastion seriously. If you discover a security vulnerability, please follow these steps:
+We take the security of TensorClad seriously. If you discover a security vulnerability, please follow these steps:
 
 ### How to Report
 
 **Please DO NOT report security vulnerabilities through public GitHub issues.**
 
 Instead, please report them via:
-- **Email**: security@bastion-security.dev
+- **Email**: security@tensorclad-security.dev
 - **Subject**: `[SECURITY] Brief description of the issue`
 
 ### What to Include
@@ -45,8 +45,8 @@ We do not currently have a bug bounty program, but we deeply appreciate security
 
 ### Security Best Practices for Users
 
-1. **Keep Updated**: Always use the latest version of Bastion
-2. **Verify Source**: Only install Bastion from the official VS Code Marketplace
+1. **Keep Updated**: Always use the latest version of TensorClad
+2. **Verify Source**: Only install TensorClad from the official VS Code Marketplace
 3. **Report Issues**: Report any suspicious behavior immediately
 4. **Check Permissions**: Review extension permissions before installation
 
@@ -59,7 +59,7 @@ We do not currently have a bug bounty program, but we deeply appreciate security
 
 ### Security Features
 
-Bastion is designed with security in mind:
+TensorClad is designed with security in mind:
 - **Local Processing**: All scanning happens locally, no data sent to external servers
 - **No Telemetry**: We don't collect usage data or analytics
 - **Open Source**: Source code is available for audit
@@ -68,8 +68,8 @@ Bastion is designed with security in mind:
 
 ### Contact
 
-For general security questions: security@bastion-security.dev
+For general security questions: security@tensorclad-security.dev
 
 ---
 
-**Thank you for helping keep Bastion and its users safe! 🛡️**
+**Thank you for helping keep TensorClad and its users safe! 🛡️**

@@ -9,10 +9,10 @@ let errorDecorationType: vscode.TextEditorDecorationType;
 let warningDecorationType: vscode.TextEditorDecorationType;
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Bastion: AI Security Scanner is now active');
+    console.log('TensorClad: AI Security Scanner is now active');
 
     // Initialize diagnostics collection
-    const diagnosticCollection = vscode.languages.createDiagnosticCollection('bastion');
+    const diagnosticCollection = vscode.languages.createDiagnosticCollection('tensorclad');
     context.subscriptions.push(diagnosticCollection);
 
     // Initialize managers
@@ -42,46 +42,46 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Create status bar item
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-    statusBarItem.command = 'bastion.showSecurityReport';
-    statusBarItem.text = '$(shield) Bastion';
-    statusBarItem.tooltip = 'Bastion: AI Security Scanner - Click for report';
+    statusBarItem.command = 'tensorclad.showSecurityReport';
+    statusBarItem.text = '$(shield) TensorClad';
+    statusBarItem.tooltip = 'TensorClad: AI Security Scanner - Click for report';
     statusBarItem.show();
     context.subscriptions.push(statusBarItem);
 
     // Register commands
     context.subscriptions.push(
-        vscode.commands.registerCommand('bastion.scanFile', async () => {
+        vscode.commands.registerCommand('tensorclad.scanFile', async () => {
             const editor = vscode.window.activeTextEditor;
             if (editor) {
-                vscode.window.showInformationMessage('Bastion: Scanning file...');
+                vscode.window.showInformationMessage('TensorClad: Scanning file...');
                 await scanDocument(editor.document);
                 updateDecorations(editor);
                 const count = diagnosticsManager.getDiagnosticsCount(editor.document.uri);
-                vscode.window.showInformationMessage(`Bastion: Found ${count} security issue(s)`);
+                vscode.window.showInformationMessage(`TensorClad: Found ${count} security issue(s)`);
             }
         })
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('bastion.scanWorkspace', async () => {
+        vscode.commands.registerCommand('tensorclad.scanWorkspace', async () => {
             await scanWorkspace();
         })
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('bastion.clearDiagnostics', () => {
+        vscode.commands.registerCommand('tensorclad.clearDiagnostics', () => {
             diagnosticCollection.clear();
             // Clear decorations too
             if (vscode.window.activeTextEditor) {
                 vscode.window.activeTextEditor.setDecorations(errorDecorationType, []);
                 vscode.window.activeTextEditor.setDecorations(warningDecorationType, []);
             }
-            vscode.window.showInformationMessage('Bastion: Diagnostics cleared');
+            vscode.window.showInformationMessage('TensorClad: Diagnostics cleared');
         })
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('bastion.showSecurityReport', () => {
+        vscode.commands.registerCommand('tensorclad.showSecurityReport', () => {
             showSecurityReport();
         })
     );
@@ -89,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Event listeners - Always register for real-time scanning
     context.subscriptions.push(
         vscode.workspace.onDidOpenTextDocument(async (document: vscode.TextDocument) => {
-            const config = vscode.workspace.getConfiguration('bastion');
+            const config = vscode.workspace.getConfiguration('tensorclad');
             if (config.get<boolean>('scanOnOpen', true) && shouldScanDocument(document)) {
                 await scanDocument(document);
             }
@@ -98,7 +98,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
         vscode.workspace.onDidSaveTextDocument(async (document: vscode.TextDocument) => {
-            const config = vscode.workspace.getConfiguration('bastion');
+            const config = vscode.workspace.getConfiguration('tensorclad');
             if (config.get<boolean>('scanOnSave', true) && shouldScanDocument(document)) {
                 await scanDocument(document);
                 // Update decorations if this is the active editor
@@ -140,11 +140,11 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    vscode.window.showInformationMessage('Bastion: AI Security Scanner activated! 🛡️');
+    vscode.window.showInformationMessage('TensorClad: AI Security Scanner activated! 🛡️');
 }
 
 function shouldScanDocument(document: vscode.TextDocument): boolean {
-    const config = vscode.workspace.getConfiguration('bastion');
+    const config = vscode.workspace.getConfiguration('tensorclad');
     
     if (!config.get<boolean>('enabled', true)) {
         return false;
@@ -211,21 +211,21 @@ async function scanDocument(document: vscode.TextDocument): Promise<void> {
         
         const issueCount = diagnosticsManager.getDiagnosticsCount(document.uri);
         statusBarItem.text = issueCount > 0 
-            ? `$(shield) Bastion: ${issueCount} issue${issueCount > 1 ? 's' : ''}` 
-            : '$(shield) Bastion: Clean';
+            ? `$(shield) TensorClad: ${issueCount} issue${issueCount > 1 ? 's' : ''}` 
+            : '$(shield) TensorClad: Clean';
     } catch (error) {
-        console.error('Bastion scan error:', error);
-        statusBarItem.text = '$(shield) Bastion: Error';
+        console.error('TensorClad scan error:', error);
+        statusBarItem.text = '$(shield) TensorClad: Error';
     }
 }
 
 async function scanWorkspace(): Promise<void> {
-    const config = vscode.workspace.getConfiguration('bastion');
+    const config = vscode.workspace.getConfiguration('tensorclad');
     const excludePatterns = config.get<string[]>('excludePatterns', []);
 
     await vscode.window.withProgress({
         location: vscode.ProgressLocation.Notification,
-        title: 'Bastion: Scanning workspace...',
+        title: 'TensorClad: Scanning workspace...',
         cancellable: true
     }, async (progress: vscode.Progress<{ increment?: number; message?: string }>, token: vscode.CancellationToken) => {
         const files = await vscode.workspace.findFiles(
@@ -250,15 +250,15 @@ async function scanWorkspace(): Promise<void> {
         }
 
         vscode.window.showInformationMessage(
-            `Bastion: Scanned ${scanned} files. Check Problems panel for issues.`
+            `TensorClad: Scanned ${scanned} files. Check Problems panel for issues.`
         );
     });
 }
 
 function showSecurityReport(): void {
     const panel = vscode.window.createWebviewPanel(
-        'bastionReport',
-        'Bastion Security Report',
+        'tensorcladReport',
+        'TensorClad Security Report',
         vscode.ViewColumn.One,
         {
             enableScripts: true
@@ -307,7 +307,7 @@ function getWebviewContent(report: SecurityReport): string {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bastion Security Report</title>
+    <title>TensorClad Security Report</title>
     <style>
         * { box-sizing: border-box; }
         body {
@@ -465,7 +465,7 @@ function getWebviewContent(report: SecurityReport): string {
 </head>
 <body>
     <div class="header">
-        <h1>🛡️ Bastion Security Report</h1>
+        <h1>🛡️ TensorClad Security Report</h1>
         <p>AI-Native Application Security Analysis</p>
         <div class="timestamp">Generated: ${new Date(report.timestamp).toLocaleString()}</div>
     </div>
@@ -500,12 +500,12 @@ function getWebviewContent(report: SecurityReport): string {
     </div>
 
     <div style="text-align: center; opacity: 0.5; font-size: 12px; margin-top: 32px;">
-        Bastion v0.1.0 • OWASP LLM Top 10 Compliant
+        TensorClad v0.1.0 • OWASP LLM Top 10 Compliant
     </div>
 </body>
 </html>`;
 }
 
 export function deactivate() {
-    console.log('Bastion: AI Security Scanner deactivated');
+    console.log('TensorClad: AI Security Scanner deactivated');
 }

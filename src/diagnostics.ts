@@ -66,7 +66,7 @@ export class DiagnosticsManager {
         // Create clickable code with link to documentation
         diagnostic.code = {
             value: issue.code || 'BST000',
-            target: vscode.Uri.parse(`https://github.com/bastion-security/bastion/docs/${issue.code}`)
+            target: vscode.Uri.parse(`https://github.com/santhoshravindran7/TensorClad/docs/${issue.code}`)
         };
 
         if (issue.relatedInformation) {

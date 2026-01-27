@@ -1,6 +1,6 @@
 # Example: Vulnerable AI Code
 
-This file contains intentional vulnerabilities for testing Bastion's detection capabilities.
+This file contains intentional vulnerabilities for testing TensorClad's detection capabilities.
 
 ## Python Examples
 
@@ -87,8 +87,8 @@ docs = vectorstore.query(sanitized_query, filters={"safe": True})
 
 ## Testing Instructions
 
-1. Open this file in VS Code with Bastion installed
-2. Bastion should automatically detect all marked vulnerabilities
+1. Open this file in VS Code with TensorClad installed
+2. TensorClad should automatically detect all marked vulnerabilities
 3. Check the Problems panel (Ctrl+Shift+M / Cmd+Shift+M)
 4. You should see 10+ security issues highlighted
 

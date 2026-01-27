@@ -1,6 +1,6 @@
 /**
- * Bastion Security Test File - TypeScript/JavaScript Threat Vectors
- * This file contains intentional security vulnerabilities to test Bastion's detection capabilities.
+ * TensorClad Security Test File - TypeScript/JavaScript Threat Vectors
+ * This file contains intentional security vulnerabilities to test TensorClad's detection capabilities.
  * DO NOT use this code in production!
  */
 
@@ -317,5 +317,5 @@ const VulnerableChat = ({ userId }: ChatProps) => {
 };
 
 
-// This file should trigger multiple Bastion warnings when scanned!
+// This file should trigger multiple TensorClad warnings when scanned!
 export { VulnerableChatbot, VulnerableChat };

@@ -1,23 +1,23 @@
-# Bastion - Quick Start Guide
+# TensorClad - Quick Start Guide
 
 ## 🚀 For Users
 
 ### Installation
 1. Open VS Code
 2. Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (Mac)
-3. Search for "Bastion"
+3. Search for "TensorClad"
 4. Click "Install"
 
 ### First Steps
 1. Open any Python or JavaScript/TypeScript file
-2. Bastion automatically scans for AI security issues
+2. TensorClad automatically scans for AI security issues
 3. Check the **Problems** panel (`Ctrl+Shift+M`) for issues
 4. Click on any issue to see details and fixes
 
 ### Commands
-- `Bastion: Scan Current File` - Manual scan
-- `Bastion: Scan Entire Workspace` - Scan all files
-- `Bastion: Show Security Report` - View dashboard
+- `TensorClad: Scan Current File` - Manual scan
+- `TensorClad: Scan Entire Workspace` - Scan all files
+- `TensorClad: Show Security Report` - View dashboard
 - Click the 🛡️ shield icon in status bar for quick access
 
 ---
@@ -29,7 +29,7 @@
 ```bash
 # Clone the repository
 git clone <your-repo-url>
-cd bastion
+cd TensorClad
 
 # Install dependencies
 npm install
@@ -65,7 +65,7 @@ npm run compile
 ### Project Structure
 
 ```
-bastion/
+TensorClad/
 ├── src/
 │   ├── extension.ts          # Main extension entry point
 │   ├── scanner.ts             # Code scanning engine
@@ -155,7 +155,7 @@ npm install -g @vscode/vsce
 vsce package
 
 # Test the package locally
-code --install-extension bastion-0.1.0.vsix
+code --install-extension tensorclad-0.1.0.vsix
 ```
 
 ### Publish to Marketplace
@@ -191,7 +191,7 @@ Expected detections:
 ### Manual Testing Checklist
 
 - [ ] Extension activates without errors
-- [ ] Status bar shows Bastion shield icon
+- [ ] Status bar shows TensorClad shield icon
 - [ ] Scan current file command works
 - [ ] Scan workspace command works
 - [ ] Problems panel shows diagnostics
@@ -217,9 +217,9 @@ Quick checklist:
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/bastion/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/bastion/discussions)
-- **Email**: support@bastion-security.dev
+- **Issues**: [GitHub Issues](https://github.com/santhoshravindran7/TensorClad/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/santhoshravindran7/TensorClad/discussions)
+- **Email**: support@tensorclad-security.dev
 
 ---
 

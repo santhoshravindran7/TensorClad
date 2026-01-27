@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="resources/icon.png" alt="Bastion Logo" width="128" height="128">
+  <img src="resources/icon.png" alt="TensorClad Logo" width="128" height="128">
 </p>
 
-<h1 align="center">Bastion</h1>
+<h1 align="center">TensorClad</h1>
 
 <p align="center">
   <strong> AI-Native Application Security Scanner for VS Code</strong>
@@ -26,12 +26,12 @@
 
 ---
 
-##  Why Bastion?
+##  Why TensorClad?
 
-Traditional security tools focus on Web 2.0 vulnerabilities (SQL injection, XSS, CSRF), but **AI-native applications face entirely new threats**. Bastion is purpose-built to detect security issues specific to LLMs, AI agents, and modern AI frameworks.
+Traditional security tools focus on Web 2.0 vulnerabilities (SQL injection, XSS, CSRF), but **AI-native applications face entirely new threats**. TensorClad is purpose-built to detect security issues specific to LLMs, AI agents, and modern AI frameworks.
 
 <!-- Screenshot: Main view showing detected vulnerabilities -->
-<!-- ![Bastion in Action](docs/images/bastion-overview.png) -->
+<!-- ![TensorClad in Action](docs/images/tensorclad-overview.png) -->
 
 ### The Problem
 
@@ -51,14 +51,14 @@ def chat(user_input):
     return response.choices[0].message.content  # Unvalidated output
 ```
 
-**Bastion catches all of these in real-time, right in your editor.**
+**TensorClad catches all of these in real-time, right in your editor.**
 
 ---
 
 ##  Features
 
 ###  Real-Time Scanning
-Bastion scans your code as you type, highlighting vulnerabilities instantly with detailed fix suggestions.
+TensorClad scans your code as you type, highlighting vulnerabilities instantly with detailed fix suggestions.
 
 <!-- Screenshot: Real-time detection with highlighting -->
 <!-- ![Real-time Detection](docs/images/realtime-detection.png) -->
@@ -88,12 +88,12 @@ Purpose-built detection rules for popular AI/LLM frameworks:
 ### From VS Code Marketplace
 1. Open VS Code
 2. Press `Ctrl+Shift+X` (Windows/Linux) or `Cmd+Shift+X` (Mac)
-3. Search for **"Bastion"**
+3. Search for **"TensorClad"**
 4. Click **Install**
 
 ### From VSIX (Manual)
 ```bash
-code --install-extension bastion-0.1.0.vsix
+code --install-extension tensorclad-0.1.0.vsix
 ```
 
 ---
@@ -101,20 +101,20 @@ code --install-extension bastion-0.1.0.vsix
 ##  Demo
 
 <!-- Add your demo video here -->
-<!-- [![Bastion Demo](docs/images/demo-thumbnail.png)](https://youtube.com/your-demo-video) -->
+<!-- [![TensorClad Demo](docs/images/demo-thumbnail.png)](https://youtube.com/your-demo-video) -->
 
-**See Bastion in action:** [Watch Demo Video](#) *(coming soon)*
+**See TensorClad in action:** [Watch Demo Video](#) *(coming soon)*
 
 ---
 
 ##  Vulnerability Detection
 
-Bastion detects these AI-specific security vulnerabilities:
+TensorClad detects these AI-specific security vulnerabilities:
 
 ### BST001-003: API Key Exposure
 
 ```python
-#  VULNERABLE - Detected by Bastion
+#  VULNERABLE - Detected by TensorClad
 openai.api_key = "sk-proj-abc123def456..."
 
 #  SECURE - Use environment variables
@@ -205,23 +205,23 @@ Access via Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`):
 
 | Command | Description |
 |---------|-------------|
-| `Bastion: Scan Current File` | Scan the active file for vulnerabilities |
-| `Bastion: Scan Entire Workspace` | Scan all supported files in workspace |
-| `Bastion: Show Security Report` | Open the security dashboard |
-| `Bastion: Clear Diagnostics` | Clear all Bastion warnings |
+| `TensorClad: Scan Current File` | Scan the active file for vulnerabilities |
+| `TensorClad: Scan Entire Workspace` | Scan all supported files in workspace |
+| `TensorClad: Show Security Report` | Open the security dashboard |
+| `TensorClad: Clear Diagnostics` | Clear all TensorClad warnings |
 
 ---
 
 ##  Configuration
 
-Customize Bastion in your VS Code settings (`settings.json`):
+Customize TensorClad in your VS Code settings (`settings.json`):
 
 ```json
 {
-  "bastion.enabled": true,
-  "bastion.scanOnSave": true,
-  "bastion.scanOnOpen": true,
-  "bastion.excludePatterns": [
+  "tensorclad.enabled": true,
+  "tensorclad.scanOnSave": true,
+  "tensorclad.scanOnOpen": true,
+  "tensorclad.excludePatterns": [
     "**/node_modules/**",
     "**/dist/**",
     "**/.venv/**"
@@ -233,10 +233,10 @@ Customize Bastion in your VS Code settings (`settings.json`):
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `bastion.enabled` | boolean | `true` | Enable/disable scanning |
-| `bastion.scanOnSave` | boolean | `true` | Scan when files are saved |
-| `bastion.scanOnOpen` | boolean | `true` | Scan when files are opened |
-| `bastion.excludePatterns` | array | `[...]` | Glob patterns to exclude |
+| `tensorclad.enabled` | boolean | `true` | Enable/disable scanning |
+| `tensorclad.scanOnSave` | boolean | `true` | Scan when files are saved |
+| `tensorclad.scanOnOpen` | boolean | `true` | Scan when files are opened |
+| `tensorclad.excludePatterns` | array | `[...]` | Glob patterns to exclude |
 
 ---
 
@@ -261,8 +261,8 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ```bash
 # Clone the repository
-git clone https://github.com/santhoshravindran7/bastion.git
-cd bastion
+git clone https://github.com/santhoshravindran7/TensorClad.git
+cd TensorClad
 
 # Install dependencies
 npm install
@@ -324,9 +324,9 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ##  Support
 
--  [Report a Bug](https://github.com/santhoshravindran7/bastion/issues/new?template=bug_report.md)
--  [Request a Feature](https://github.com/santhoshravindran7/bastion/issues/new?template=feature_request.md)
--  [Documentation](https://github.com/santhoshravindran7/bastion/wiki)
+-  [Report a Bug](https://github.com/santhoshravindran7/TensorClad/issues/new?template=bug_report.md)
+-  [Request a Feature](https://github.com/santhoshravindran7/TensorClad/issues/new?template=feature_request.md)
+-  [Documentation](https://github.com/santhoshravindran7/TensorClad/wiki)
 
 ---
 
@@ -335,5 +335,5 @@ MIT License - see [LICENSE](LICENSE) for details.
 </p>
 
 <p align="center">
-  <a href="https://github.com/santhoshravindran7/bastion"> Star us on GitHub!</a>
+  <a href="https://github.com/santhoshravindran7/TensorClad"> Star us on GitHub!</a>
 </p>

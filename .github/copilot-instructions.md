@@ -1,9 +1,9 @@
-<!-- Copilot Instructions for Bastion VS Code Extension -->
+<!-- Copilot Instructions for TensorClad VS Code Extension -->
 
 - [x] Verify that the copilot-instructions.md file in the .github directory is created.
 
 - [x] Clarify Project Requirements
-	Project: Bastion - AI-native application security scanner VS Code extension
+	Project: TensorClad - AI-native application security scanner VS Code extension
 	Language: TypeScript
 	Type: VS Code Extension
 
