@@ -285,7 +285,8 @@ function getWebviewContent(report: SecurityReport): string {
     }).join('');
 
     // Generate file issues HTML
-    const fileIssuesHtml = Object.entries(report.fileIssues).map(([_uri, fileData]) => {
+    const fileIssuesHtml = Object.entries(report.fileIssues).map((entry) => {
+        const fileData = entry[1];
         const issuesList = fileData.issues.map(issue => `
             <div class="issue-row ${issue.severity}">
                 <span class="issue-line">Line ${issue.line}</span>
