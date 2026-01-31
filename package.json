@@ -1,0 +1,159 @@
+{
+  "name": "tensorclad",
+  "displayName": "TensorClad",
+  "description": "AI-native security scanner for detecting LLM vulnerabilities, prompt injection, and AI-specific threats in your code",
+  "version": "0.1.0",
+  "publisher": "thisissanthoshr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santhoshravindran7/TensorClad.git"
+  },
+  "homepage": "https://github.com/santhoshravindran7/TensorClad#readme",
+  "bugs": {
+    "url": "https://github.com/santhoshravindran7/TensorClad/issues"
+  },
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages",
+    "Machine Learning",
+    "Testing"
+  ],
+  "keywords": [
+    "security",
+    "ai",
+    "llm",
+    "prompt-injection",
+    "vulnerability",
+    "scanner",
+    "sast",
+    "openai",
+    "langchain",
+    "ai-security",
+    "owasp",
+    "llm-security"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tensorclad.scanFile",
+        "title": "TensorClad: Scan Current File",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "tensorclad.scanWorkspace",
+        "title": "TensorClad: Scan Entire Workspace",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "tensorclad.clearDiagnostics",
+        "title": "TensorClad: Clear Diagnostics"
+      },
+      {
+        "command": "tensorclad.showSecurityReport",
+        "title": "TensorClad: Show Security Report"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "tensorclad.scanFile",
+          "group": "tensorclad@1",
+          "when": "editorTextFocus"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "tensorclad.scanFile",
+          "group": "navigation@1",
+          "when": "resourceLangId =~ /python|typescript|javascript|javascriptreact|typescriptreact/"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "TensorClad",
+      "properties": {
+        "tensorclad.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable TensorClad security scanning"
+        },
+        "tensorclad.scanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan files on save"
+        },
+        "tensorclad.scanOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan files when opened"
+        },
+        "tensorclad.severity": {
+          "type": "object",
+          "default": {
+            "promptInjection": "error",
+            "apiKeyExposure": "error",
+            "unsanitizedInput": "warning",
+            "missingValidation": "warning",
+            "insecureRag": "warning",
+            "piiLeakage": "error"
+          },
+          "description": "Severity levels for different vulnerability types"
+        },
+        "tensorclad.excludePatterns": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/.venv/**",
+            "**/venv/**"
+          ],
+          "description": "File patterns to exclude from scanning"
+        },
+        "tensorclad.frameworks": {
+          "type": "array",
+          "default": [
+            "openai",
+            "langchain",
+            "anthropic",
+            "azure-openai",
+            "llamaindex"
+          ],
+          "description": "AI frameworks to detect and scan"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vscode/test-electron": "^2.3.8",
+    "esbuild": "^0.19.10",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {}
+}
