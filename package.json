@@ -3,7 +3,7 @@
   "displayName": "TensorClad",
   "description": "AI-native security scanner for detecting LLM vulnerabilities, prompt injection, and AI-specific threats in your code",
   "version": "0.1.0",
-  "publisher": "tensorclad-security",
+  "publisher": "thisissanthoshr",
   "repository": {
     "type": "git",
     "url": "https://github.com/santhoshravindran7/TensorClad.git"
