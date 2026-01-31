@@ -51,7 +51,7 @@ export class DiagnosticsManager {
         );
 
         // Create rich message with documentation
-        const fullMessage = issue.documentation 
+        const fullMessage = issue.documentation
             ? `${issue.message}\n\n💡 Fix: ${issue.documentation}`
             : issue.message;
 
@@ -62,7 +62,7 @@ export class DiagnosticsManager {
         );
 
         diagnostic.source = issue.source;
-        
+
         // Create clickable code with link to documentation
         diagnostic.code = {
             value: issue.code || 'BST000',
@@ -81,14 +81,14 @@ export class DiagnosticsManager {
 
         const uri = document.uri.toString();
         const existing = this.diagnosticsMap.get(uri) || [];
-        
+
         // Avoid duplicate diagnostics at same location
-        const isDuplicate = existing.some(d => 
-            d.range.start.line === range.start.line && 
+        const isDuplicate = existing.some(d =>
+            d.range.start.line === range.start.line &&
             d.range.start.character === range.start.character &&
             d.code === diagnostic.code
         );
-        
+
         if (!isDuplicate) {
             existing.push(diagnostic);
             this.diagnosticsMap.set(uri, existing);
@@ -134,11 +134,11 @@ export class DiagnosticsManager {
         this.diagnosticsMap.forEach((diagnostics, uri) => {
             filesScanned++;
             const fileName = uri.split('/').pop() || uri;
-            
+
             diagnostics.forEach((diagnostic) => {
                 totalIssues++;
                 const severity = diagnostic.severity === vscode.DiagnosticSeverity.Error ? 'error' : 'warning';
-                
+
                 if (diagnostic.severity === vscode.DiagnosticSeverity.Error) {
                     criticalCount++;
                 } else if (diagnostic.severity === vscode.DiagnosticSeverity.Warning) {
@@ -149,7 +149,7 @@ export class DiagnosticsManager {
                 const codeValue = typeof diagnostic.code === 'object' && diagnostic.code !== null
                     ? (diagnostic.code as { value: string }).value
                     : diagnostic.code?.toString() || 'unknown';
-                
+
                 if (!byType[codeValue]) {
                     byType[codeValue] = {
                         count: 0,

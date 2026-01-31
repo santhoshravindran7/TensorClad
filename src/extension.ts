@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
         gutterIconPath: context.asAbsolutePath('resources/error-icon.svg'),
         gutterIconSize: 'contain'
     });
-    
+
     warningDecorationType = vscode.window.createTextEditorDecorationType({
         backgroundColor: 'rgba(255, 165, 0, 0.15)',
         border: '1px solid rgba(255, 165, 0, 0.5)',
@@ -145,7 +145,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 function shouldScanDocument(document: vscode.TextDocument): boolean {
     const config = vscode.workspace.getConfiguration('tensorclad');
-    
+
     if (!config.get<boolean>('enabled', true)) {
         return false;
     }
@@ -167,7 +167,7 @@ function shouldScanDocument(document: vscode.TextDocument): boolean {
 
     // Check exclude patterns
     const excludePatterns = config.get<string[]>('excludePatterns', []);
-    
+
     for (const pattern of excludePatterns) {
         const globPattern = new vscode.RelativePattern(
             vscode.workspace.workspaceFolders?.[0] ?? '',
@@ -183,14 +183,14 @@ function shouldScanDocument(document: vscode.TextDocument): boolean {
 
 function updateDecorations(editor: vscode.TextEditor): void {
     const diagnostics = diagnosticsManager.getAllDiagnostics().get(editor.document.uri.toString()) || [];
-    
+
     const errorDecorations: vscode.DecorationOptions[] = [];
     const warningDecorations: vscode.DecorationOptions[] = [];
 
     diagnostics.forEach(diagnostic => {
         const decoration: vscode.DecorationOptions = {
             range: diagnostic.range,
-            hoverMessage: new vscode.MarkdownString(`**🛡️ ${diagnostic.source}** (${typeof diagnostic.code === 'object' ? (diagnostic.code as {value: string}).value : diagnostic.code})\n\n${diagnostic.message}`)
+            hoverMessage: new vscode.MarkdownString(`**🛡️ ${diagnostic.source}** (${typeof diagnostic.code === 'object' ? (diagnostic.code as { value: string }).value : diagnostic.code})\n\n${diagnostic.message}`)
         };
 
         if (diagnostic.severity === vscode.DiagnosticSeverity.Error) {
@@ -208,10 +208,10 @@ async function scanDocument(document: vscode.TextDocument): Promise<void> {
     try {
         statusBarItem.text = '$(loading~spin) Scanning...';
         await scanner.scanDocument(document);
-        
+
         const issueCount = diagnosticsManager.getDiagnosticsCount(document.uri);
-        statusBarItem.text = issueCount > 0 
-            ? `$(shield) TensorClad: ${issueCount} issue${issueCount > 1 ? 's' : ''}` 
+        statusBarItem.text = issueCount > 0
+            ? `$(shield) TensorClad: ${issueCount} issue${issueCount > 1 ? 's' : ''}`
             : '$(shield) TensorClad: Clean';
     } catch (error) {
         console.error('TensorClad scan error:', error);
@@ -243,9 +243,9 @@ async function scanWorkspace(): Promise<void> {
             await scanDocument(document);
 
             scanned++;
-            progress.report({ 
+            progress.report({
                 increment: (100 / files.length),
-                message: `${scanned}/${files.length} files` 
+                message: `${scanned}/${files.length} files`
             });
         }
 
@@ -294,7 +294,7 @@ function getWebviewContent(report: SecurityReport): string {
                 <span class="issue-message">${issue.message}</span>
             </div>
         `).join('');
-        
+
         return `
             <div class="file-section">
                 <div class="file-header">📄 ${fileData.file} <span class="file-count">(${fileData.issues.length} issues)</span></div>

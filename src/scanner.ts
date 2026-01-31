@@ -34,7 +34,7 @@ export class SecurityScanner {
         lines.forEach((line, lineIndex) => {
             for (const pattern of rule.patterns) {
                 const matches = this.findMatches(line, pattern);
-                
+
                 matches.forEach((match) => {
                     // Check if context is valid (not in comments, etc.)
                     if (this.isValidContext(document, lineIndex, match.index, line)) {
@@ -118,7 +118,7 @@ export class SecurityScanner {
         };
 
         const patterns = commentPatterns[languageId] || [];
-        
+
         for (const pattern of patterns) {
             const match = line.match(pattern);
             if (match && match.index !== undefined && match.index <= position) {
