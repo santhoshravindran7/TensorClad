@@ -26,50 +26,43 @@
 
 ---
 
-##  Why TensorClad?
+## Why TensorClad?
 
-Traditional security tools focus on Web 2.0 vulnerabilities (SQL injection, XSS, CSRF), but **AI-native applications face entirely new threats**. TensorClad is purpose-built to detect security issues specific to LLMs, AI agents, and modern AI frameworks.
+As AI applications become mainstream, a new class of security vulnerabilities has emerged. Traditional SAST tools excel at finding SQL injection and XSS, but they're blind to **prompt injection**, **API key leakage in LLM configs**, and **unvalidated model outputs**.
 
-<!-- Screenshot: Main view showing detected vulnerabilities -->
-<!-- ![TensorClad in Action](docs/images/tensorclad-overview.png) -->
+TensorClad fills this gap. It's a static analysis tool built specifically for developers working with OpenAI, LangChain, Anthropic, and other AI frameworks.
 
 ### The Problem
 
-When building AI applications with OpenAI, LangChain, or other LLM frameworks, developers often introduce vulnerabilities like:
+Consider this typical AI application code:
 
 ```python
-#  This code has 3 security issues. Can you spot them?
+# This code has 3 security issues
 
-api_key = "sk-proj-abc123..."  # Hardcoded API key
+api_key = "sk-proj-abc123..."  # BST001: Hardcoded API key
 
 def chat(user_input):
-    prompt = f"Help the user with: {user_input}"  # Prompt injection
+    prompt = f"Help the user with: {user_input}"  # BST010: Prompt injection risk
     response = openai.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}]
     )
-    return response.choices[0].message.content  # Unvalidated output
+    return response.choices[0].message.content  # BST030: Unvalidated output
 ```
 
-**TensorClad catches all of these in real-time, right in your editor.**
+TensorClad detects all three issues as you type, showing warnings in the Problems panel with explanations and fix suggestions.
 
 ---
 
-##  Features
+## Features
 
-###  Real-Time Scanning
-TensorClad scans your code as you type, highlighting vulnerabilities instantly with detailed fix suggestions.
+### Real-Time Scanning
+No need to run a separate CLI tool. TensorClad analyzes your code on every keystroke and highlights issues inline with squiggly underlines, just like TypeScript errors.
 
-<!-- Screenshot: Real-time detection with highlighting -->
-<!-- ![Real-time Detection](docs/images/realtime-detection.png) -->
+### Security Dashboard
+Run `TensorClad: Show Security Report` to see a summary of all detected vulnerabilities across your workspace, organized by severity and file.
 
-###  Security Dashboard
-Get a comprehensive view of all security issues across your workspace with the built-in security report.
-
-<!-- Screenshot: Security Report Dashboard -->
-<!-- ![Security Dashboard](docs/images/security-report.png) -->
-
-###  AI Framework Support
+### Framework-Aware Detection
 Purpose-built detection rules for popular AI/LLM frameworks:
 
 | Framework | Support |
@@ -83,7 +76,7 @@ Purpose-built detection rules for popular AI/LLM frameworks:
 
 ---
 
-##  Installation
+## Installation
 
 ### From VS Code Marketplace
 1. Open VS Code
@@ -98,121 +91,117 @@ code --install-extension tensorclad-0.1.0.vsix
 
 ---
 
-##  Demo
+## Detected Vulnerabilities
 
-<!-- Add your demo video here -->
-<!-- [![TensorClad Demo](docs/images/demo-thumbnail.png)](https://youtube.com/your-demo-video) -->
+TensorClad identifies security issues specific to AI/LLM applications. Each finding includes a code (e.g., BST001), severity level, and remediation guidance.
 
-**See TensorClad in action:** [Watch Demo Video](#) *(coming soon)*
-
----
-
-##  Vulnerability Detection
-
-TensorClad detects these AI-specific security vulnerabilities:
-
-### BST001-003: API Key Exposure
+### API Key Exposure (BST001-003)
+Hardcoded API keys are the most common security issue in AI applications.
 
 ```python
-#  VULNERABLE - Detected by TensorClad
+# ❌ Detected: BST001 - OpenAI API key in source code
 openai.api_key = "sk-proj-abc123def456..."
 
-#  SECURE - Use environment variables
+# ✅ Secure: Load from environment
 openai.api_key = os.getenv("OPENAI_API_KEY")
 ```
 
-### BST010: Prompt Injection
+### Prompt Injection (BST010)
+Direct user input in prompts allows attackers to manipulate LLM behavior.
 
 ```python
-#  VULNERABLE - User input directly in prompt
+# ❌ Detected: BST010 - User input directly in prompt
 prompt = f"Summarize this text: {user_input}"
 
-#  SECURE - Sanitize and validate input
+# ✅ Secure: Validate and sanitize input
 prompt = f"Summarize this text: {sanitize_input(user_input)}"
 ```
 
-### BST020: Hardcoded System Prompts
+### Hardcoded System Prompts (BST020)
+System prompts in source code can leak business logic and are hard to update.
 
 ```python
-#  WARNING - Externalize for security
+# ⚠️ Warning: BST020 - Consider externalizing prompts
 messages = [
     {"role": "system", "content": "You are a helpful assistant..."}
 ]
 
-#  BETTER - Load from secure config
+# ✅ Better: Load from configuration
 messages = [
     {"role": "system", "content": load_prompt("assistant")}
 ]
 ```
 
-### BST030: Unvalidated LLM Output
+### Unvalidated LLM Output (BST030)
+LLM responses are untrusted. Never execute them directly.
 
 ```python
-#  VULNERABLE - Raw output used without validation
+# ❌ Detected: BST030 - Executing unvalidated output
 result = response.choices[0].message.content
-exec(result)  # Dangerous!
+exec(result)  # Remote code execution risk!
 
-#  SECURE - Validate before use
+# ✅ Secure: Validate output before use
 result = response.choices[0].message.content
 if is_safe_output(result):
     process(result)
 ```
 
-### BST050: PII Leakage
+### PII Leakage (BST050)
+Logging user data can violate privacy regulations.
 
 ```python
-#  VULNERABLE - Logging sensitive data
+# ❌ Detected: BST050 - PII in logs
 print(f"User email: {user.email}, Query: {query}")
 
-#  SECURE - Redact PII from logs
+# ✅ Secure: Redact sensitive data
 print(f"User: [REDACTED], Query: {redact_pii(query)}")
 ```
 
-### BST060: Insecure Tool Execution
+### Insecure Tool Execution (BST060)
+AI agents that execute arbitrary code need strict validation.
 
 ```python
-#  VULNERABLE - Dynamic execution without validation
+# ❌ Detected: BST060 - Dynamic code execution
 eval(llm_response)
-exec(user_provided_code)
 
-#  SECURE - Whitelist allowed operations
+# ✅ Secure: Whitelist allowed operations
 if operation in ALLOWED_OPERATIONS:
-    safe_execute(operation)
+    execute_sandboxed(operation)
 ```
 
-### Full Vulnerability Reference
+### Complete Rule Reference
 
-| Code | Type | Severity | Description |
-|------|------|:--------:|-------------|
-| BST001 | API Key Exposure |  Error | OpenAI API key in source code |
-| BST002 | API Key Exposure |  Error | Anthropic API key in source code |
-| BST003 | API Key Exposure |  Error | Azure API key in source code |
-| BST010 | Prompt Injection |  Error | Direct user input concatenation |
-| BST011 | Unsanitized Input |  Warning | Input passed without validation |
-| BST020 | Hardcoded Prompt |  Warning | System prompts in source code |
-| BST030 | Unvalidated Output |  Warning | LLM output used without checks |
-| BST040 | Insecure RAG |  Warning | Unsafe vector DB queries |
-| BST050 | PII Leakage |  Error | Sensitive data in logs/output |
-| BST060 | Insecure Tool Call |  Error | Dynamic code execution |
-| BST070 | Token Exposure |  Error | Credentials in responses |
-| BST080 | Missing Rate Limit |  Warning | No rate limiting on API calls |
+| Code | Category | Severity | What It Detects |
+|------|----------|:--------:|----------------|
+| BST001 | API Keys | Error | OpenAI API keys in source |
+| BST002 | API Keys | Error | Anthropic API keys in source |
+| BST003 | API Keys | Error | Azure/other API keys in source |
+| BST010 | Prompt Injection | Error | User input concatenated into prompts |
+| BST011 | Input Validation | Warning | Unsanitized input passed to LLM |
+| BST020 | Configuration | Warning | Hardcoded system prompts |
+| BST030 | Output Validation | Warning | LLM output used without validation |
+| BST040 | RAG Security | Warning | Unsanitized vector DB queries |
+| BST050 | Data Privacy | Error | PII in logs or LLM context |
+| BST060 | Code Execution | Error | eval/exec with LLM output |
+| BST070 | Token Security | Error | Credentials exposed in responses |
+| BST080 | Rate Limiting | Warning | API calls without rate limits |
 
 ---
 
-##  Commands
+## Commands
 
-Access via Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`):
+Open the Command Palette (`Ctrl+Shift+P`) and type "TensorClad":
 
 | Command | Description |
 |---------|-------------|
-| `TensorClad: Scan Current File` | Scan the active file for vulnerabilities |
-| `TensorClad: Scan Entire Workspace` | Scan all supported files in workspace |
-| `TensorClad: Show Security Report` | Open the security dashboard |
-| `TensorClad: Clear Diagnostics` | Clear all TensorClad warnings |
+| `TensorClad: Scan Current File` | Manually trigger a scan of the active file |
+| `TensorClad: Scan Entire Workspace` | Scan all Python/JS/TS files in the workspace |
+| `TensorClad: Show Security Report` | Open the security dashboard in a new tab |
+| `TensorClad: Clear Diagnostics` | Remove all TensorClad warnings |
 
 ---
 
-##  Configuration
+## Configuration
 
 Customize TensorClad in your VS Code settings (`settings.json`):
 
@@ -240,24 +229,24 @@ Customize TensorClad in your VS Code settings (`settings.json`):
 
 ---
 
-##  Supported Languages
+## Supported Languages
 
 | Language | Extensions | Status |
 |----------|------------|:------:|
-| Python | `.py` |  |
-| JavaScript | `.js`, `.jsx` |  |
-| TypeScript | `.ts`, `.tsx` |  |
-| Java | `.java` |  Planned |
-| Go | `.go` |  Planned |
-| C# | `.cs` |  Planned |
+| Python | `.py` | ✅ Full support |
+| JavaScript | `.js`, `.jsx` | ✅ Full support |
+| TypeScript | `.ts`, `.tsx` | ✅ Full support |
+| Java | `.java` | 🔜 Planned |
+| Go | `.go` | 🔜 Planned |
+| C# | `.cs` | 🔜 Planned |
 
 ---
 
-##  Contributing
+## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! Whether it's adding new detection rules, improving documentation, or fixing bugs.
 
-### Development Setup
+### Quick Start
 
 ```bash
 # Clone the repository
@@ -296,7 +285,22 @@ Add detection rules in `src/rules/ruleEngine.ts`:
 
 ---
 
-##  Resources
+## Roadmap
+
+Planned for upcoming releases:
+
+- [ ] Custom rule builder (YAML/JSON configuration)
+- [ ] Quick-fix code actions for common issues
+- [ ] CI/CD integration (GitHub Actions, GitLab CI)
+- [ ] Compliance reporting (OWASP LLM Top 10, NIST AI RMF)
+- [ ] Team policy enforcement
+- [ ] Additional language support (Java, Go, C#, Rust)
+
+Have a feature request? [Open an issue](https://github.com/santhoshravindran7/TensorClad/issues).
+
+---
+
+## Resources
 
 - [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 - [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
@@ -304,36 +308,24 @@ Add detection rules in `src/rules/ruleEngine.ts`:
 
 ---
 
-##  Roadmap
-
-- [ ] Custom rule builder (YAML/JSON config)
-- [ ] CI/CD integration (GitHub Actions, GitLab CI)
-- [ ] Quick-fix code actions
-- [ ] Compliance reporting (OWASP LLM, NIST AI RMF)
-- [ ] Team policy enforcement
-- [ ] Multi-language support (Java, Go, C#)
-- [ ] AI-powered fix suggestions
-
----
-
-##  License
+## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-##  Support
+## Support
 
--  [Report a Bug](https://github.com/santhoshravindran7/TensorClad/issues/new?template=bug_report.md)
--  [Request a Feature](https://github.com/santhoshravindran7/TensorClad/issues/new?template=feature_request.md)
--  [Documentation](https://github.com/santhoshravindran7/TensorClad/wiki)
+- [Report a Bug](https://github.com/santhoshravindran7/TensorClad/issues/new?template=bug_report.md)
+- [Request a Feature](https://github.com/santhoshravindran7/TensorClad/issues/new?template=feature_request.md)
+- [Read the Docs](https://github.com/santhoshravindran7/TensorClad/wiki)
 
 ---
 
 <p align="center">
-  <strong>Built with  for the AI security community</strong>
+  <sub>Built for developers building the next generation of AI applications</sub>
 </p>
 
 <p align="center">
-  <a href="https://github.com/santhoshravindran7/TensorClad"> Star us on GitHub!</a>
+  <a href="https://github.com/santhoshravindran7/TensorClad">⭐ Star on GitHub</a>
 </p>
