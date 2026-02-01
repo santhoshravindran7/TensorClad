@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="resources/icon.png" alt="TensorClad Logo" width="128" height="128">
+  <img src="https://raw.githubusercontent.com/santhoshravindran7/TensorClad/main/resources/icon.png" alt="TensorClad Logo" width="128" height="128">
 </p>
 
 <h1 align="center">TensorClad</h1>
