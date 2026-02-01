@@ -14,6 +14,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auto-fix suggestions
 - Multi-language support (Java, Go, C#)
 
+## [1.0.0] - 2026-01-14
+
+### Added
+- **Git Hooks Integration** 🎯
+  - Pre-commit hook to scan staged files before commits
+  - Pre-push hook to block pushes with security vulnerabilities
+  - Commands: Install Git Hooks, Uninstall Git Hooks, Check Git Hooks Status
+  - Configurable blocking behavior (errors only or errors + warnings)
+- New configuration options:
+  - `tensorclad.gitHooks.enabled` - Enable/disable git hooks
+  - `tensorclad.gitHooks.blockOnError` - Block on security errors
+  - `tensorclad.gitHooks.blockOnWarning` - Block on security warnings
+
+### Changed
+- **Standardized diagnostic codes** from BST to TC prefix
+  - BST001 → TC001, BST010 → TC010, etc.
+  - All codes now consistently use TC (TensorClad) prefix
+
+### Security
+- Git hooks scan for critical vulnerabilities (TC001, TC010, TC050, TC060)
+- Prevents accidental push of API keys and injection vulnerabilities
+
 ## [0.1.0] - 2026-01-14
 
 ### Added
@@ -54,7 +76,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **1.0.0** - Git hooks integration, TC code standardization
 - **0.1.0** - Initial public release
 
-[Unreleased]: https://github.com/santhoshravindran7/TensorClad/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/santhoshravindran7/TensorClad/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/santhoshravindran7/TensorClad/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/santhoshravindran7/TensorClad/releases/tag/v0.1.0

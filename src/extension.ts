@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { SecurityScanner } from './scanner';
 import { DiagnosticsManager, SecurityReport } from './diagnostics';
+import { GitHookManager } from './gitHooks';
 
 let diagnosticsManager: DiagnosticsManager;
 let scanner: SecurityScanner;
@@ -83,6 +84,39 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand('tensorclad.showSecurityReport', () => {
             showSecurityReport();
+        })
+    );
+
+    // Git Hooks Commands
+    context.subscriptions.push(
+        vscode.commands.registerCommand('tensorclad.installGitHooks', async () => {
+            await GitHookManager.installAllHooks();
+        })
+    );
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand('tensorclad.uninstallGitHooks', async () => {
+            await GitHookManager.uninstallHooks();
+        })
+    );
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand('tensorclad.checkGitHooksStatus', () => {
+            const status = GitHookManager.checkHooksStatus();
+            const prePush = status.prePush ? '✅ Installed' : '❌ Not installed';
+            const preCommit = status.preCommit ? '✅ Installed' : '❌ Not installed';
+            
+            vscode.window.showInformationMessage(
+                `TensorClad Git Hooks:\n• Pre-push: ${prePush}\n• Pre-commit: ${preCommit}`,
+                'Install Hooks',
+                'Uninstall Hooks'
+            ).then(selection => {
+                if (selection === 'Install Hooks') {
+                    GitHookManager.installAllHooks();
+                } else if (selection === 'Uninstall Hooks') {
+                    GitHookManager.uninstallHooks();
+                }
+            });
         })
     );
 
@@ -501,7 +535,7 @@ function getWebviewContent(report: SecurityReport): string {
     </div>
 
     <div style="text-align: center; opacity: 0.5; font-size: 12px; margin-top: 32px;">
-        TensorClad v0.1.0 • OWASP LLM Top 10 Compliant
+        TensorClad v1.0.0 • OWASP LLM Top 10 Compliant
     </div>
 </body>
 </html>`;

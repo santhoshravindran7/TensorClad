@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/VS%20Code-1.85.0+-007ACC?style=flat-square&logo=visual-studio-code" alt="VS Code">
   <img src="https://img.shields.io/badge/OWASP-LLM%20Top%2010-orange?style=flat-square" alt="OWASP">
@@ -198,6 +198,9 @@ Open the Command Palette (`Ctrl+Shift+P`) and type "TensorClad":
 | `TensorClad: Scan Entire Workspace` | Scan all Python/JS/TS files in the workspace |
 | `TensorClad: Show Security Report` | Open the security dashboard in a new tab |
 | `TensorClad: Clear Diagnostics` | Remove all TensorClad warnings |
+| `TensorClad: Install Git Hooks` | Install pre-commit and pre-push hooks |
+| `TensorClad: Uninstall Git Hooks` | Remove TensorClad git hooks |
+| `TensorClad: Check Git Hooks Status` | View current git hooks installation status |
 
 ---
 
@@ -214,7 +217,10 @@ Customize TensorClad in your VS Code settings (`settings.json`):
     "**/node_modules/**",
     "**/dist/**",
     "**/.venv/**"
-  ]
+  ],
+  "tensorclad.gitHooks.enabled": true,
+  "tensorclad.gitHooks.blockOnError": true,
+  "tensorclad.gitHooks.blockOnWarning": false
 }
 ```
 
@@ -226,6 +232,53 @@ Customize TensorClad in your VS Code settings (`settings.json`):
 | `tensorclad.scanOnSave` | boolean | `true` | Scan when files are saved |
 | `tensorclad.scanOnOpen` | boolean | `true` | Scan when files are opened |
 | `tensorclad.excludePatterns` | array | `[...]` | Glob patterns to exclude |
+| `tensorclad.gitHooks.enabled` | boolean | `true` | Enable git hooks integration |
+| `tensorclad.gitHooks.blockOnError` | boolean | `true` | Block push on security errors |
+| `tensorclad.gitHooks.blockOnWarning` | boolean | `false` | Block push on security warnings |
+
+---
+
+## Git Hooks Integration
+
+TensorClad can integrate with Git to prevent pushing code with security vulnerabilities. This provides a last line of defense before insecure code reaches your repository.
+
+### How It Works
+
+When installed, TensorClad adds pre-commit and pre-push hooks that scan staged/changed files for security issues:
+
+- **Pre-commit hook**: Scans staged files before each commit
+- **Pre-push hook**: Scans all changed files before pushing to remote
+
+If critical vulnerabilities are found (based on your configuration), the commit or push is blocked with a detailed report.
+
+### Installing Git Hooks
+
+1. Open the Command Palette (`Ctrl+Shift+P`)
+2. Run `TensorClad: Install Git Hooks`
+3. The hooks will be installed to your repository's `.git/hooks/` directory
+
+### What Gets Blocked
+
+By default, pushes are blocked when code contains:
+
+| Code | Issue | Blocked by Default |
+|------|-------|:------------------:|
+| TC001-003 | Hardcoded API keys | ✅ Yes |
+| TC010 | Prompt injection vulnerabilities | ✅ Yes |
+| TC050 | PII exposure | ✅ Yes |
+| TC060 | Unsafe code execution | ✅ Yes |
+
+You can configure whether warnings (non-error severity issues) also block pushes via `tensorclad.gitHooks.blockOnWarning`.
+
+### Bypassing Hooks (Emergency Only)
+
+If you need to push despite warnings (not recommended):
+
+```bash
+git push --no-verify
+```
+
+⚠️ **Warning**: This bypasses all security checks. Use only when absolutely necessary.
 
 ---
 

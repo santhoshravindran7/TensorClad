@@ -2,7 +2,7 @@
   "name": "tensorclad",
   "displayName": "TensorClad",
   "description": "AI-native security scanner for detecting LLM vulnerabilities, prompt injection, and AI-specific threats in your code",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "thisissanthoshr",
   "repository": {
     "type": "git",
@@ -64,6 +64,18 @@
       {
         "command": "tensorclad.showSecurityReport",
         "title": "TensorClad: Show Security Report"
+      },
+      {
+        "command": "tensorclad.installGitHooks",
+        "title": "TensorClad: Install Git Hooks (Block Push on Vulnerabilities)"
+      },
+      {
+        "command": "tensorclad.uninstallGitHooks",
+        "title": "TensorClad: Uninstall Git Hooks"
+      },
+      {
+        "command": "tensorclad.checkGitHooksStatus",
+        "title": "TensorClad: Check Git Hooks Status"
       }
     ],
     "menus": {
@@ -133,6 +145,21 @@
             "llamaindex"
           ],
           "description": "AI frameworks to detect and scan"
+        },
+        "tensorclad.gitHooks.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable git hooks to block commits/pushes with security vulnerabilities"
+        },
+        "tensorclad.gitHooks.blockOnError": {
+          "type": "boolean",
+          "default": true,
+          "description": "Block git push when critical (Error severity) issues are detected"
+        },
+        "tensorclad.gitHooks.blockOnWarning": {
+          "type": "boolean",
+          "default": false,
+          "description": "Block git push when warnings are detected (stricter mode)"
         }
       }
     }
