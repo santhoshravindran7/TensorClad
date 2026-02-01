@@ -65,7 +65,7 @@ export class DiagnosticsManager {
 
         // Create clickable code with link to documentation
         diagnostic.code = {
-            value: issue.code || 'BST000',
+            value: issue.code || 'TC000',
             target: vscode.Uri.parse(`https://github.com/santhoshravindran7/TensorClad/docs/${issue.code}`)
         };
 
@@ -117,18 +117,18 @@ export class DiagnosticsManager {
 
         // Vulnerability code descriptions
         const codeDescriptions: Record<string, string> = {
-            'BST001': 'OpenAI API Key Exposure - Hardcoded API keys can be extracted from source code',
-            'BST002': 'Anthropic API Key Exposure - API credentials should use environment variables',
-            'BST003': 'Azure API Key Exposure - Use Azure Key Vault for secure credential storage',
-            'BST010': 'Prompt Injection - Direct user input in prompts enables malicious manipulation',
-            'BST011': 'Unsanitized Input - User input should be validated before LLM processing',
-            'BST020': 'Hardcoded System Prompt - Externalize prompts for security and maintainability',
-            'BST030': 'Unvalidated LLM Output - Model responses should be validated before use',
-            'BST040': 'Insecure RAG Query - Vector database queries need input sanitization',
-            'BST050': 'PII Leakage - Sensitive data logged or exposed in outputs',
-            'BST060': 'Insecure Tool Execution - Dynamic code execution without validation',
-            'BST070': 'Token Exposure - Credentials potentially exposed in responses',
-            'BST080': 'Missing Rate Limiting - API calls without abuse prevention'
+            'TC001': 'OpenAI API Key Exposure - Hardcoded API keys can be extracted from source code',
+            'TC002': 'Anthropic API Key Exposure - API credentials should use environment variables',
+            'TC003': 'Azure API Key Exposure - Use Azure Key Vault for secure credential storage',
+            'TC010': 'Prompt Injection - Direct user input in prompts enables malicious manipulation',
+            'TC011': 'Unsanitized Input - User input should be validated before LLM processing',
+            'TC020': 'Hardcoded System Prompt - Externalize prompts for security and maintainability',
+            'TC030': 'Unvalidated LLM Output - Model responses should be validated before use',
+            'TC040': 'Insecure RAG Query - Vector database queries need input sanitization',
+            'TC050': 'PII Leakage - Sensitive data logged or exposed in outputs',
+            'TC060': 'Insecure Tool Execution - Dynamic code execution without validation',
+            'TC070': 'Token Exposure - Credentials potentially exposed in responses',
+            'TC080': 'Missing Rate Limiting - API calls without abuse prevention'
         };
 
         this.diagnosticsMap.forEach((diagnostics, uri) => {

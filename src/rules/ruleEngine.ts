@@ -20,7 +20,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.ApiKeyExposure,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Potential OpenAI API key exposure. Use environment variables instead.',
-            code: 'BST001',
+            code: 'TC001',
             patterns: [
                 /['"]sk-[a-zA-Z0-9]{20,}['"]/g,
                 /['"]sk-proj-[a-zA-Z0-9_-]{20,}['"]/g,
@@ -34,7 +34,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.ApiKeyExposure,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Potential Anthropic API key exposure. Use environment variables instead.',
-            code: 'BST002',
+            code: 'TC002',
             patterns: [
                 /['"]sk-ant-[a-zA-Z0-9_-]{20,}['"]/g,
                 /ANTHROPIC_API_KEY\s*=\s*['"][^'"]+['"]/g
@@ -47,7 +47,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.ApiKeyExposure,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Potential Azure API key exposure. Use Azure Key Vault or environment variables.',
-            code: 'BST003',
+            code: 'TC003',
             patterns: [
                 /AZURE_OPENAI_API_KEY\s*=\s*['"][^'"]+['"]/g,
                 /api[_-]?key\s*=\s*['"][a-zA-Z0-9]{32,}['"]/gi
@@ -62,7 +62,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.PromptInjection,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Direct user input concatenation in prompt. This can lead to prompt injection attacks.',
-            code: 'BST010',
+            code: 'TC010',
             patterns: [
                 /f['"].*\{[^}]*user[^}]*\}.*['"]/g,  // Python f-strings
                 /`.*\$\{[^}]*user[^}]*\}.*`/g,       // JS template literals
@@ -77,7 +77,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.UnsanitizedInput,
             severity: vscode.DiagnosticSeverity.Warning,
             message: 'Unsanitized user input passed to LLM. Consider input validation and sanitization.',
-            code: 'BST011',
+            code: 'TC011',
             patterns: [
                 /\.create\([^)]*content\s*=\s*[^)]*input\(/g,
                 /\.chat\([^)]*messages.*input\(/g,
@@ -93,7 +93,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.HardcodedPrompt,
             severity: vscode.DiagnosticSeverity.Warning,
             message: 'Hardcoded system prompt detected. Consider externalizing prompts for better security and maintainability.',
-            code: 'BST020',
+            code: 'TC020',
             patterns: [
                 /role\s*[:=]\s*['"]system['"].*content\s*[:=]\s*['"][^'"]{50,}['"]/g,
                 /SystemMessage\([^)]{50,}\)/g
@@ -108,7 +108,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.UnvalidatedOutput,
             severity: vscode.DiagnosticSeverity.Warning,
             message: 'LLM output used without validation. Validate and sanitize model responses before use.',
-            code: 'BST030',
+            code: 'TC030',
             patterns: [
                 /response\.choices\[0\]\.message\.content(?!\s*\)\s*(?:if|and|or|\?))/g,
                 /\.content(?!\s*\)\s*(?:if|and|or|in|not|\?))/g
@@ -123,7 +123,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.InsecureRag,
             severity: vscode.DiagnosticSeverity.Warning,
             message: 'RAG query without input sanitization. Vector DB queries can be exploited.',
-            code: 'BST040',
+            code: 'TC040',
             patterns: [
                 /\.similarity_search\([^)]*user[_\s]?(?:input|query)[^)]*\)/g,
                 /\.query\([^)]*user[_\s]?(?:input|query)[^)]*\)/g,
@@ -139,7 +139,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.PiiLeakage,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Potential PII leakage in logs. Avoid logging sensitive user data.',
-            code: 'BST050',
+            code: 'TC050',
             patterns: [
                 /(?:console\.log|print|logger)\([^)]*(?:email|password|ssn|credit_card|phone|address)[^)]*\)/gi,
                 /(?:console\.log|print|logger)\([^)]*user[_\s]?(?:data|info|details)[^)]*\)/gi
@@ -154,7 +154,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.InsecureToolCall,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Tool/function call without validation. Validate function names and parameters before execution.',
-            code: 'BST060',
+            code: 'TC060',
             patterns: [
                 /eval\s*\(/g,
                 /exec\s*\(/g,
@@ -171,7 +171,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.TokenExposure,
             severity: vscode.DiagnosticSeverity.Error,
             message: 'Potential token or credential in LLM response. Implement output filtering.',
-            code: 'BST070',
+            code: 'TC070',
             patterns: [
                 /response.*(?:token|api[_-]?key|password|secret)/gi
             ],
@@ -185,7 +185,7 @@ export function createDetectionRules(): DetectionRule[] {
             type: VulnerabilityType.MissingValidation,
             severity: vscode.DiagnosticSeverity.Warning,
             message: 'LLM API call without rate limiting. Implement rate limiting to prevent abuse.',
-            code: 'BST080',
+            code: 'TC080',
             patterns: [
                 /(?:openai|anthropic|ChatCompletion)\.(?:create|chat|complete)\(/g
             ],

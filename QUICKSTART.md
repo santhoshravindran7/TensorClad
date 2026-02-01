@@ -99,7 +99,7 @@ Edit `src/rules/ruleEngine.ts`:
     type: VulnerabilityType.YourType,
     severity: vscode.DiagnosticSeverity.Error,
     message: 'Clear description of the issue',
-    code: 'BST100', // Get next available number
+    code: 'TC100', // Get next available number
     patterns: [
         /your-regex-pattern/g,
         /alternative-pattern/g
@@ -179,14 +179,14 @@ code examples/test_vulnerable.py
 ```
 
 Expected detections:
-- ✅ API key exposure (BST001-003)
-- ✅ Prompt injection (BST010)
-- ✅ Unsanitized input (BST011)
-- ✅ Hardcoded prompts (BST020)
-- ✅ Unvalidated output (BST030)
-- ✅ RAG issues (BST040)
-- ✅ PII leakage (BST050)
-- ✅ Insecure tool calls (BST060)
+- ✅ API key exposure (TC001-003)
+- ✅ Prompt injection (TC010)
+- ✅ Unsanitized input (TC011)
+- ✅ Hardcoded prompts (TC020)
+- ✅ Unvalidated output (TC030)
+- ✅ RAG issues (TC040)
+- ✅ PII leakage (TC050)
+- ✅ Insecure tool calls (TC060)
 
 ### Manual Testing Checklist
 

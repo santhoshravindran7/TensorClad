@@ -150,7 +150,7 @@ npm run test
     type: VulnerabilityType.PiiLeakage,
     severity: vscode.DiagnosticSeverity.Warning,
     message: 'LangChain memory may persist sensitive data. Use ephemeral memory.',
-    code: 'BST090',
+    code: 'TC090',
     patterns: [
         /ConversationBufferMemory\([^)]*(?!ephemeral)/g
     ],

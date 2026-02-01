@@ -39,15 +39,15 @@ Consider this typical AI application code:
 ```python
 # This code has 3 security issues
 
-api_key = "sk-proj-abc123..."  # BST001: Hardcoded API key
+api_key = "sk-proj-abc123..."  # TC001: Hardcoded API key
 
 def chat(user_input):
-    prompt = f"Help the user with: {user_input}"  # BST010: Prompt injection risk
+    prompt = f"Help the user with: {user_input}"  # TC010: Prompt injection risk
     response = openai.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}]
     )
-    return response.choices[0].message.content  # BST030: Unvalidated output
+    return response.choices[0].message.content  # TC030: Unvalidated output
 ```
 
 TensorClad detects all three issues as you type, showing warnings in the Problems panel with explanations and fix suggestions.
@@ -93,35 +93,35 @@ code --install-extension tensorclad-0.1.0.vsix
 
 ## Detected Vulnerabilities
 
-TensorClad identifies security issues specific to AI/LLM applications. Each finding includes a code (e.g., BST001), severity level, and remediation guidance.
+TensorClad identifies security issues specific to AI/LLM applications. Each finding includes a code (e.g., TC001), severity level, and remediation guidance.
 
-### API Key Exposure (BST001-003)
+### API Key Exposure (TC001-003)
 Hardcoded API keys are the most common security issue in AI applications.
 
 ```python
-# ❌ Detected: BST001 - OpenAI API key in source code
+# ❌ Detected: TC001 - OpenAI API key in source code
 openai.api_key = "sk-proj-abc123def456..."
 
 # ✅ Secure: Load from environment
 openai.api_key = os.getenv("OPENAI_API_KEY")
 ```
 
-### Prompt Injection (BST010)
+### Prompt Injection (TC010)
 Direct user input in prompts allows attackers to manipulate LLM behavior.
 
 ```python
-# ❌ Detected: BST010 - User input directly in prompt
+# ❌ Detected: TC010 - User input directly in prompt
 prompt = f"Summarize this text: {user_input}"
 
 # ✅ Secure: Validate and sanitize input
 prompt = f"Summarize this text: {sanitize_input(user_input)}"
 ```
 
-### Hardcoded System Prompts (BST020)
+### Hardcoded System Prompts (TC020)
 System prompts in source code can leak business logic and are hard to update.
 
 ```python
-# ⚠️ Warning: BST020 - Consider externalizing prompts
+# ⚠️ Warning: TC020 - Consider externalizing prompts
 messages = [
     {"role": "system", "content": "You are a helpful assistant..."}
 ]
@@ -132,11 +132,11 @@ messages = [
 ]
 ```
 
-### Unvalidated LLM Output (BST030)
+### Unvalidated LLM Output (TC030)
 LLM responses are untrusted. Never execute them directly.
 
 ```python
-# ❌ Detected: BST030 - Executing unvalidated output
+# ❌ Detected: TC030 - Executing unvalidated output
 result = response.choices[0].message.content
 exec(result)  # Remote code execution risk!
 
@@ -146,22 +146,22 @@ if is_safe_output(result):
     process(result)
 ```
 
-### PII Leakage (BST050)
+### PII Leakage (TC050)
 Logging user data can violate privacy regulations.
 
 ```python
-# ❌ Detected: BST050 - PII in logs
+# ❌ Detected: TC050 - PII in logs
 print(f"User email: {user.email}, Query: {query}")
 
 # ✅ Secure: Redact sensitive data
 print(f"User: [REDACTED], Query: {redact_pii(query)}")
 ```
 
-### Insecure Tool Execution (BST060)
+### Insecure Tool Execution (TC060)
 AI agents that execute arbitrary code need strict validation.
 
 ```python
-# ❌ Detected: BST060 - Dynamic code execution
+# ❌ Detected: TC060 - Dynamic code execution
 eval(llm_response)
 
 # ✅ Secure: Whitelist allowed operations
@@ -173,18 +173,18 @@ if operation in ALLOWED_OPERATIONS:
 
 | Code | Category | Severity | What It Detects |
 |------|----------|:--------:|----------------|
-| BST001 | API Keys | Error | OpenAI API keys in source |
-| BST002 | API Keys | Error | Anthropic API keys in source |
-| BST003 | API Keys | Error | Azure/other API keys in source |
-| BST010 | Prompt Injection | Error | User input concatenated into prompts |
-| BST011 | Input Validation | Warning | Unsanitized input passed to LLM |
-| BST020 | Configuration | Warning | Hardcoded system prompts |
-| BST030 | Output Validation | Warning | LLM output used without validation |
-| BST040 | RAG Security | Warning | Unsanitized vector DB queries |
-| BST050 | Data Privacy | Error | PII in logs or LLM context |
-| BST060 | Code Execution | Error | eval/exec with LLM output |
-| BST070 | Token Security | Error | Credentials exposed in responses |
-| BST080 | Rate Limiting | Warning | API calls without rate limits |
+| TC001 | API Keys | Error | OpenAI API keys in source |
+| TC002 | API Keys | Error | Anthropic API keys in source |
+| TC003 | API Keys | Error | Azure/other API keys in source |
+| TC010 | Prompt Injection | Error | User input concatenated into prompts |
+| TC011 | Input Validation | Warning | Unsanitized input passed to LLM |
+| TC020 | Configuration | Warning | Hardcoded system prompts |
+| TC030 | Output Validation | Warning | LLM output used without validation |
+| TC040 | RAG Security | Warning | Unsanitized vector DB queries |
+| TC050 | Data Privacy | Error | PII in logs or LLM context |
+| TC060 | Code Execution | Error | eval/exec with LLM output |
+| TC070 | Token Security | Error | Credentials exposed in responses |
+| TC080 | Rate Limiting | Warning | API calls without rate limits |
 
 ---
 
@@ -276,7 +276,7 @@ Add detection rules in `src/rules/ruleEngine.ts`:
     type: VulnerabilityType.CustomType,
     severity: vscode.DiagnosticSeverity.Warning,
     message: 'Description of the security issue',
-    code: 'BST100',
+    code: 'TC100',
     patterns: [/your-regex-pattern/g],
     languageIds: ['python', 'javascript', 'typescript'],
     documentation: 'How to fix this issue'

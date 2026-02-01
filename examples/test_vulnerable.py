@@ -6,17 +6,17 @@ This file intentionally contains security issues that TensorClad should detect
 import openai
 import os
 
-# BST001: Hardcoded OpenAI API key - SHOULD BE DETECTED
+# TC001: Hardcoded OpenAI API key - SHOULD BE DETECTED
 OPENAI_API_KEY = "sk-proj-1234567890abcdefghijklmnopqrstuvwxyz"
 
 def vulnerable_prompt_injection(user_input: str):
-    """BST010: Direct user input in prompt"""
+    """TC010: Direct user input in prompt"""
     # This is vulnerable to prompt injection
     prompt = f"Translate this to French: {user_input}"
     return prompt
 
 def vulnerable_api_call():
-    """BST011: Unsanitized input to LLM"""
+    """TC011: Unsanitized input to LLM"""
     user_text = input("Enter text: ")
     
     response = openai.ChatCompletion.create(
@@ -26,22 +26,22 @@ def vulnerable_api_call():
         ]
     )
     
-    # BST030: Unvalidated output
+    # TC030: Unvalidated output
     return response.choices[0].message.content
 
 def log_pii(user_data: dict):
-    """BST050: PII in logs"""
+    """TC050: PII in logs"""
     print(f"User email: {user_data['email']}")
     print(f"User password: {user_data['password']}")
     print(f"User SSN: {user_data['ssn']}")
 
 def insecure_rag_query(user_query: str, vectorstore):
-    """BST040: Unsecured vector DB query"""
+    """TC040: Unsecured vector DB query"""
     results = vectorstore.similarity_search(user_query)
     return results
 
 def hardcoded_system_prompt():
-    """BST020: Hardcoded system prompt"""
+    """TC020: Hardcoded system prompt"""
     messages = [
         {
             "role": "system",
@@ -51,7 +51,7 @@ def hardcoded_system_prompt():
     return messages
 
 def insecure_function_calling():
-    """BST060: Dangerous function execution"""
+    """TC060: Dangerous function execution"""
     user_function = input("Enter function to execute: ")
     # This is extremely dangerous!
     eval(user_function)
@@ -59,18 +59,18 @@ def insecure_function_calling():
 # More examples
 class VulnerableAIApp:
     def __init__(self):
-        # BST002: Another API key exposure
+        # TC002: Another API key exposure
         self.anthropic_key = "sk-ant-api03-abcdefghijklmnopqrstuvwxyz"
         
     def process_with_langchain(self, user_input: str):
         """Multiple vulnerabilities in one function"""
-        # BST010: Direct concatenation
+        # TC010: Direct concatenation
         prompt = "Summarize: " + user_input
         
-        # BST011: No sanitization
+        # TC011: No sanitization
         response = self.call_llm(prompt)
         
-        # BST030: No validation
+        # TC030: No validation
         return response.content
 
 # Secure alternatives (TensorClad should NOT flag these)

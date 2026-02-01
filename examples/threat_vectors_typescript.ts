@@ -9,20 +9,20 @@ import Anthropic from '@anthropic-ai/sdk';
 import { ChatOpenAI } from 'langchain/chat_models/openai';
 
 // =============================================================================
-// THREAT VECTOR 1: API Key Exposure (BST001, BST002, BST003)
+// THREAT VECTOR 1: API Key Exposure (TC001, TC002, TC003)
 // =============================================================================
 
-// ❌ BST001: Hardcoded OpenAI API Key
+// ❌ TC001: Hardcoded OpenAI API Key
 const openai = new OpenAI({
     apiKey: 'sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx234yz'
 });
 
-// ❌ BST002: Hardcoded Anthropic API Key
+// ❌ TC002: Hardcoded Anthropic API Key
 const anthropic = new Anthropic({
     apiKey: 'sk-ant-api03-abcdefghijklmnopqrstuvwxyz123456789'
 });
 
-// ❌ BST003: Hardcoded Azure Key
+// ❌ TC003: Hardcoded Azure Key
 const azureApiKey = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6';
 
 // ❌ Alternative patterns
@@ -31,11 +31,11 @@ const api_key = 'sk-proj-test123456789abcdefghij';
 
 
 // =============================================================================
-// THREAT VECTOR 2: Prompt Injection Vulnerabilities (BST010, BST011)
+// THREAT VECTOR 2: Prompt Injection Vulnerabilities (TC010, TC011)
 // =============================================================================
 
 async function vulnerableChatbot(userInput: string) {
-    // ❌ BST010: Template literal injection
+    // ❌ TC010: Template literal injection
     const prompt = `You are a helpful assistant. User says: ${userInput}`;
 
     const response = await openai.chat.completions.create({
@@ -47,10 +47,10 @@ async function vulnerableChatbot(userInput: string) {
 }
 
 async function anotherVulnerableFunction(userMessage: string) {
-    // ❌ BST010: String concatenation with user input
+    // ❌ TC010: String concatenation with user input
     const systemPrompt = 'Summarize the following text: ' + userMessage;
 
-    // ❌ BST011: Unsanitized input in query
+    // ❌ TC011: Unsanitized input in query
     const query = `Process this request: ${userMessage} and return JSON`;
 
     return openai.chat.completions.create({
@@ -60,13 +60,13 @@ async function anotherVulnerableFunction(userMessage: string) {
 }
 
 async function ragVulnerableQuery(userQuery: string) {
-    // ❌ BST011: User input directly in RAG query
+    // ❌ TC011: User input directly in RAG query
     const searchQuery = `Find documents about: ${userQuery}`;
 
     // Simulated vector search
     const results = await vectorDb.similaritySearch(searchQuery);
 
-    // ❌ BST010: Combining RAG results with user input unsafely
+    // ❌ TC010: Combining RAG results with user input unsafely
     const finalPrompt = `Based on: ${results}\n\nAnswer: ${userQuery}`;
 
     return finalPrompt;
@@ -74,10 +74,10 @@ async function ragVulnerableQuery(userQuery: string) {
 
 
 // =============================================================================
-// THREAT VECTOR 3: Hardcoded System Prompts (BST020)
+// THREAT VECTOR 3: Hardcoded System Prompts (TC020)
 // =============================================================================
 
-// ❌ BST020: Hardcoded system prompt - should be externalized
+// ❌ TC020: Hardcoded system prompt - should be externalized
 const systemPrompt = `You are a helpful AI assistant for our company.
 You have access to customer data and can process transactions.
 Always be polite and helpful. Never reveal internal processes.`;
@@ -85,7 +85,7 @@ Always be polite and helpful. Never reveal internal processes.`;
 const SYSTEM_INSTRUCTION = 'You are an expert code reviewer. Analyze code for bugs.';
 
 async function getAssistantResponse(userInput: string) {
-    // ❌ BST020: Inline hardcoded prompt
+    // ❌ TC020: Inline hardcoded prompt
     const messages = [
         { role: 'system' as const, content: 'You are a financial advisor. Give investment advice based on user portfolio.' },
         { role: 'user' as const, content: userInput }
@@ -96,7 +96,7 @@ async function getAssistantResponse(userInput: string) {
 
 
 // =============================================================================
-// THREAT VECTOR 4: Missing Output Validation (BST030)
+// THREAT VECTOR 4: Missing Output Validation (TC030)
 // =============================================================================
 
 async function processLLMResponse() {
@@ -105,7 +105,7 @@ async function processLLMResponse() {
         messages: [{ role: 'user', content: 'Generate a SQL query' }]
     });
 
-    // ❌ BST030: Direct use of unvalidated LLM output
+    // ❌ TC030: Direct use of unvalidated LLM output
     const rawContent = response.choices[0].message.content;
 
     // ❌ Dangerous: Using LLM output directly
@@ -120,7 +120,7 @@ async function processLLMResponse() {
 async function langchainUnvalidated() {
     const llm = new ChatOpenAI();
 
-    // ❌ BST030: Unvalidated LangChain output
+    // ❌ TC030: Unvalidated LangChain output
     const result = await llm.predict('Generate a shell command');
 
     // ❌ Dangerous: Executing unvalidated output
@@ -131,20 +131,20 @@ async function langchainUnvalidated() {
 
 
 // =============================================================================
-// THREAT VECTOR 5: Insecure RAG Operations (BST040)
+// THREAT VECTOR 5: Insecure RAG Operations (TC040)
 // =============================================================================
 
 async function insecureVectorSearch(userInput: string) {
-    // ❌ BST040: Direct user input in vector query
+    // ❌ TC040: Direct user input in vector query
     const results = await chromadb.query({
         queryTexts: [userInput],
         nResults: 10
     });
 
-    // ❌ BST040: Unsafe similarity search
+    // ❌ TC040: Unsafe similarity search
     const docs = await vectorstore.similaritySearch(userInput);
 
-    // ❌ BST040: Unvalidated embedding input
+    // ❌ TC040: Unvalidated embedding input
     const embedding = await openai.embeddings.create({ input: userInput });
 
     return docs;
@@ -152,44 +152,44 @@ async function insecureVectorSearch(userInput: string) {
 
 
 // =============================================================================
-// THREAT VECTOR 6: PII Leakage (BST050)
+// THREAT VECTOR 6: PII Leakage (TC050)
 // =============================================================================
 
 function logConversation(userData: any, response: string) {
-    // ❌ BST050: Logging PII data
+    // ❌ TC050: Logging PII data
     console.log(`User SSN: ${userData.ssn}, Response: ${response}`);
 
-    // ❌ BST050: Logging credit card info
+    // ❌ TC050: Logging credit card info
     console.log(`Processing payment for card: ${userData.creditCard}`);
 
-    // ❌ BST050: Logging email in AI context
+    // ❌ TC050: Logging email in AI context
     console.log(`User email ${userData.email} asked: ${userData.query}`);
 
-    // ❌ BST050: Password in logs
+    // ❌ TC050: Password in logs
     console.log(`Auth attempt with password: ${password}`);
 }
 
 
 // =============================================================================
-// THREAT VECTOR 7: Insecure Tool/Function Calling (BST060)
+// THREAT VECTOR 7: Insecure Tool/Function Calling (TC060)
 // =============================================================================
 
 async function executeTool(toolName: string, toolArgs: any) {
-    // ❌ BST060: Dynamic function execution without validation
+    // ❌ TC060: Dynamic function execution without validation
     const func = (global as any)[toolName];
     const result = func(toolArgs);
 
-    // ❌ BST060: Eval with LLM output
+    // ❌ TC060: Eval with LLM output
     eval(toolArgs.code);
 
-    // ❌ BST060: Dangerous function execution
+    // ❌ TC060: Dangerous function execution
     new Function(toolArgs.command)();
 
     return result;
 }
 
 async function langchainToolsUnsafe(userRequest: string) {
-    // ❌ BST060: Unrestricted tool access
+    // ❌ TC060: Unrestricted tool access
     const tools = loadAllTools();
 
     const agent = initializeAgent({
@@ -199,7 +199,7 @@ async function langchainToolsUnsafe(userRequest: string) {
         // ❌ Missing tool validation
     });
 
-    // ❌ BST060: Direct user input to agent
+    // ❌ TC060: Direct user input to agent
     const result = await agent.run(userRequest);
 
     return result;
@@ -207,14 +207,14 @@ async function langchainToolsUnsafe(userRequest: string) {
 
 
 // =============================================================================
-// THREAT VECTOR 8: Token/Credential Exposure (BST070)
+// THREAT VECTOR 8: Token/Credential Exposure (TC070)
 // =============================================================================
 
 function exposeCredentialsInResponse() {
-    // ❌ BST070: API key in error message
+    // ❌ TC070: API key in error message
     const errorMsg = `Failed to connect with key: ${process.env.OPENAI_API_KEY}`;
 
-    // ❌ BST070: Token in user-visible output
+    // ❌ TC070: Token in user-visible output
     return {
         status: 'error',
         debug: {
@@ -227,11 +227,11 @@ function exposeCredentialsInResponse() {
 
 
 // =============================================================================
-// THREAT VECTOR 9: Missing Rate Limiting (BST080)
+// THREAT VECTOR 9: Missing Rate Limiting (TC080)
 // =============================================================================
 
 async function unlimitedApiCalls(requests: string[]) {
-    // ❌ BST080: No rate limiting - vulnerable to abuse
+    // ❌ TC080: No rate limiting - vulnerable to abuse
     for (const request of requests) {
         await openai.chat.completions.create({
             model: 'gpt-4',
@@ -250,17 +250,17 @@ class VulnerableChatbot {
     private systemPrompt: string;
 
     constructor() {
-        // ❌ BST001: Hardcoded key
+        // ❌ TC001: Hardcoded key
         this.apiKey = 'sk-proj-vulnerablekey123456789';
 
-        // ❌ BST020: Hardcoded system prompt
+        // ❌ TC020: Hardcoded system prompt
         this.systemPrompt = 'You are a banking assistant with access to accounts.';
     }
 
     async chat(userInput: string) {
         const client = new OpenAI({ apiKey: this.apiKey });
 
-        // ❌ BST010: Prompt injection vulnerability
+        // ❌ TC010: Prompt injection vulnerability
         const prompt = `${this.systemPrompt}\n\nUser: ${userInput}`;
 
         const response = await client.chat.completions.create({
@@ -268,10 +268,10 @@ class VulnerableChatbot {
             messages: [{ role: 'user', content: prompt }]
         });
 
-        // ❌ BST030: Unvalidated output
+        // ❌ TC030: Unvalidated output
         const result = response.choices[0].message.content;
 
-        // ❌ BST050: PII logging
+        // ❌ TC050: PII logging
         console.log(`User query: ${userInput}, Response: ${result}`);
 
         return result;
@@ -290,16 +290,16 @@ interface ChatProps {
 // Simulated React component
 const VulnerableChat = ({ userId }: ChatProps) => {
     const handleSubmit = async (userMessage: string) => {
-        // ❌ BST001: Hardcoded API key in frontend!
+        // ❌ TC001: Hardcoded API key in frontend!
         const apiKey = 'sk-frontend-exposed-key-danger';
 
-        // ❌ BST010: User input directly in prompt
+        // ❌ TC010: User input directly in prompt
         const prompt = `Help user ${userId} with: ${userMessage}`;
 
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${apiKey}`,  // ❌ BST070: Key exposure
+                'Authorization': `Bearer ${apiKey}`,  // ❌ TC070: Key exposure
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ prompt })
@@ -307,7 +307,7 @@ const VulnerableChat = ({ userId }: ChatProps) => {
 
         const data = await response.json();
 
-        // ❌ BST030: Using unvalidated response
+        // ❌ TC030: Using unvalidated response
         document.innerHTML = data.content;  // XSS vulnerability too!
 
         return data;
