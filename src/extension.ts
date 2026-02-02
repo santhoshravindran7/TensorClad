@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { SecurityScanner } from './scanner';
 import { DiagnosticsManager, SecurityReport } from './diagnostics';
 import { GitHookManager } from './gitHooks';
+import { SecurityCodeActionProvider, registerCodeActionCommands } from './codeActions';
 
 let diagnosticsManager: DiagnosticsManager;
 let scanner: SecurityScanner;
@@ -19,6 +20,28 @@ export function activate(context: vscode.ExtensionContext) {
     // Initialize managers
     diagnosticsManager = new DiagnosticsManager(diagnosticCollection);
     scanner = new SecurityScanner(diagnosticsManager);
+
+    // Register Quick Fix code actions provider
+    const supportedLanguages = [
+        { scheme: 'file', language: 'python' },
+        { scheme: 'file', language: 'javascript' },
+        { scheme: 'file', language: 'typescript' },
+        { scheme: 'file', language: 'javascriptreact' },
+        { scheme: 'file', language: 'typescriptreact' }
+    ];
+
+    context.subscriptions.push(
+        vscode.languages.registerCodeActionsProvider(
+            supportedLanguages,
+            new SecurityCodeActionProvider(),
+            {
+                providedCodeActionKinds: SecurityCodeActionProvider.providedCodeActionKinds
+            }
+        )
+    );
+
+    // Register code action commands (for fixes that need additional logic)
+    registerCodeActionCommands(context);
 
     // Create decorations for visual highlighting
     errorDecorationType = vscode.window.createTextEditorDecorationType({
