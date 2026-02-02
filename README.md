@@ -26,6 +26,18 @@
 
 ---
 
+## Demo
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/santhoshravindran7/TensorClad/main/docs/images/TensorCladDemo.gif" alt="TensorClad Demo" width="800">
+</p>
+
+<p align="center">
+  <em>TensorClad detecting security vulnerabilities in real-time as you code</em>
+</p>
+
+---
+
 ## Why TensorClad?
 
 As AI applications become mainstream, a new class of security vulnerabilities has emerged. Traditional SAST tools excel at finding SQL injection and XSS, but they're blind to **prompt injection**, **API key leakage in LLM configs**, and **unvalidated model outputs**.
